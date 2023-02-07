@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "61370275449",
+    "project_id": "pickrun-8cc58",
+    "storage_bucket": "pickrun-8cc58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61370275449:android:bfc4dddbd99c4db806a6a8",
+        "android_client_info": {
+          "package_name": "com.example.pickrun_new_client_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61370275449-nrqo7b8vfn312kj285dph5iiqf48260r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChn1tRzjPaaZ7akBIcGejhzY-WSp2QAiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61370275449-nrqo7b8vfn312kj285dph5iiqf48260r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
