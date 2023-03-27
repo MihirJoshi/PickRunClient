@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pickrun_new_client_app/intro/info_page_2.dart';
 import 'package:pickrun_new_client_app/intro/info_page_3.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
+import 'package:pickrun_new_client_app/utils/dimensions.dart';
 import 'package:pickrun_new_client_app/widgets/info_widget.dart';
 
 // ignore: camel_case_types
@@ -23,7 +24,7 @@ class _Info_Page_1State extends State<Info_Page_1> {
         backgroundColor: AppColors.infoback,
         body: Column(
           children: [
-            const SizedBox(height: 100,),
+           SizedBox(height: Dimensions.height60 + Dimensions.height40,),
             Info_Widget(
               head_text: "Pickrun is a Delivery",
               head_text2: "Service",

@@ -8,6 +8,7 @@ import 'package:pickrun_new_client_app/models/user_model.dart';
 import 'package:pickrun_new_client_app/pages/home_page.dart';
 import 'package:pickrun_new_client_app/pages/register.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
+import 'package:pickrun_new_client_app/utils/dimensions.dart';
 import 'package:pickrun_new_client_app/widgets/big_text.dart';
 import 'package:pickrun_new_client_app/widgets/button_widget.dart';
 import 'package:pickrun_new_client_app/widgets/small_text.dart';
@@ -68,24 +69,24 @@ class _LoginLogicState extends State<LoginLogic> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: Dimensions.height10),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 Center(
                   child: Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    height: 300,
+                    margin:  EdgeInsets.only(top: Dimensions.height30),
+                    height: Dimensions.height300,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage("assets/Login-bro.png"))),
                   ),
                 ),
                 // ignore: prefer_const_constructors
-                SizedBox(height: 10),
+                SizedBox(height: Dimensions.height10),
                 Container(
-                  margin: const EdgeInsets.only(left: 1, right: 1),
+                  margin: EdgeInsets.only(left: Dimensions.left1, right: Dimensions.left1),
                   decoration: BoxDecoration(
                       border:
                           Border.all(width: 5, color: AppColors.bordercolor),

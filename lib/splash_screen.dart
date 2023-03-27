@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pickrun_new_client_app/intro/info_page_1.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
+import 'package:pickrun_new_client_app/utils/dimensions.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -31,11 +32,11 @@ class _SplashScreenState extends State<SplashScreen> {
         elevation: 0,
       ),
       body: Column(
-        children: <Widget>[
+        children: <Widget>[ 
           Stack(
             children: [
               Container(
-                padding: const EdgeInsets.only(left: 90, top: 0),
+                alignment: Alignment.topLeft,
                 height: 260,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -44,13 +45,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Center(
                 child: SizedBox(
-                  height: 600,
+                  height: Dimensions.height300 + Dimensions.height300,
                   child: Image.asset("assets/new_logo.png"),
                 ),
               ),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.only(top: 400),
+                  padding: EdgeInsets.only(top: Dimensions.height300 + Dimensions.height60 + Dimensions.height40),
                   child: const Text("Welcome To PickRun",
                       style: TextStyle(
                           fontSize: 24,

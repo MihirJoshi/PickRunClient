@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pickrun_new_client_app/pages/item_select.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 import 'package:pickrun_new_client_app/widgets/app_drawer.dart';
+import 'package:pickrun_new_client_app/widgets/small_text.dart';
+import 'package:pickrun_new_client_app/widgets/image_widget.dart';
 
 // ignore: camel_case_types
 class Home_Page extends StatelessWidget {
@@ -23,7 +26,7 @@ class Home_Page extends StatelessWidget {
               //alignment: Alignment.topRight,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(left: 90, top: 0),
+                  padding: const EdgeInsets.only(left: 90, top: 0),
                   height: 260,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
@@ -31,65 +34,56 @@ class Home_Page extends StatelessWidget {
                           fit: BoxFit.cover)),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 150, left: 20),
-                  child: Text(
-                    "Welcome...",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
+                  padding: const EdgeInsets.only(top: 150, left: 20),
+                  child: SmallText(text: "Welcome...", size: 20, color: Colors.white,),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 190, left: 20),
-                  child: Text(
-                    "Deliver when it counts .....",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
+                  padding: const EdgeInsets.only(top: 190, left: 20),
+                  child: SmallText(text: "Deliver when it counts .....", size: 22, color: Colors.white,),
                 ),
               ],
             ),
             Container(
-              margin: EdgeInsets.only(left: 1, right: 1),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(left: 1, right: 1),
+              decoration: const BoxDecoration(
                   color: Colors.white70,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40)),
                   boxShadow: [
                     BoxShadow(
-                        offset: const Offset(2.0, 2.0), color: AppColors.shadow)
+                        offset: Offset(2.0, 2.0), color: AppColors.shadow)
                   ]),
               height: 540,
               width: 500,
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 40, top: 50),
+                    padding: const EdgeInsets.only(left: 40, top: 50),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "What are you looking for Today ?",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: SmallText(text: "What are you looking for Today ?", size: 16, color: Colors.black,),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Padding(padding: EdgeInsets.only(left: 30)),
+                      const SizedBox(width: 32,),
+                      InkWell(
+                        onTap: (() {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ItemSet()),
+                          );
+                        }),
+                        child: const Image_Widget(url: "assets/new_set21.png"),
+                      ),
+                      const SizedBox(width: 30,),
                       InkWell(
                         onTap: (() {
                           /*Navigator.pushReplacement(
@@ -97,93 +91,59 @@ class Home_Page extends StatelessWidget {
                             MaterialPageRoute(builder: (context) => pickup()),
                           );*/
                         }),
-                        child: Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/new_set21.png",
-                                  ),
-                                  fit: BoxFit.cover)),
-                        ),
+                        child: const Image_Widget(url: "assets/new_set2.png"),
                       ),
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/new_set2.png",
-                                ),
-                                fit: BoxFit.cover)),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Container(
-                        height: 80,
-                        width: 80,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/new_set3.png",
-                                ),
-                                fit: BoxFit.cover)),
+                      
+                      const SizedBox(width: 28,),
+                      InkWell(
+                        onTap: (() {
+                          /*Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => pickup()),
+                          );*/
+                        }),
+                        child: const Image_Widget(url: "assets/new_set3.png"),
                       ),
                     ],
                   ),
+                  // ignore: prefer_const_constructors
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
+                   Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Padding(padding: EdgeInsets.only(left: 30)),
-                      Text(
-                        "New Order",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 34)),
-                      Text(
-                        "Track Order",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      Padding(padding: EdgeInsets.only(left: 40)),
-                      Text(
-                        "Orders",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
+                      const SizedBox(width: 30,),
+                      SmallText(text: "New Order", size: 16, color: Colors.black,),
+                      const SizedBox(width: 40,),
+                      SmallText(text: "Track Order", size: 16, color: Colors.black,),
+                      const SizedBox(width: 50,),
+                      SmallText(text: "Orders", size: 16, color: Colors.black,),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 30),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Promo's Today",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
+                      child: SmallText(text: "Promo's Today", size: 16, color: Colors.black,)
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 20, right: 20),
+                        margin: const EdgeInsets.only(left: 20, right: 20),
                         height: 200,
                         width: 600,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage("assets/boy.png"),
                                 fit: BoxFit.cover)),

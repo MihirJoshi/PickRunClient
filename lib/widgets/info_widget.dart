@@ -41,7 +41,7 @@ class Info_Widget extends StatelessWidget {
         Center(
           child: Container(
             padding: EdgeInsets.only(top: Dimensions.top200),
-            height: 380,
+            height: Dimensions.height380,
             decoration: BoxDecoration(image: imageProvider),
           ),
         ),
@@ -68,7 +68,7 @@ class Info_Widget extends StatelessWidget {
         
         SizedBox(height: Dimensions.height60),
         Container(
-          padding: const EdgeInsets.only(left: 10),
+          padding: EdgeInsets.only(left: Dimensions.left10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

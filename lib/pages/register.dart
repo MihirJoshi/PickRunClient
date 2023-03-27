@@ -184,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
-                          padding: EdgeInsets.only(left: 35),
+                          padding: const EdgeInsets.only(left: 35),
                           child: const Text(
                             "Enter the Password",
                             style: TextStyle(
@@ -209,6 +209,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             if (!regex.hasMatch(value)) {
                               return ("Enter Valid Password(Min. 6 Character)");
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             _passwordController.text = value!;
@@ -258,6 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
             .then((value) => {postDetailsToFirebase()})
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
+        
         });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
