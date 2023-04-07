@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pickrun_new_client_app/pages/desti_page.dart';
-import 'package:pickrun_new_client_app/pages/map_screen.dart';
+import 'package:pickrun_new_client_app/pages/map_ui.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 import 'package:pickrun_new_client_app/utils/dimensions.dart';
 import 'package:pickrun_new_client_app/widgets/big_text.dart';
@@ -10,9 +10,11 @@ import 'package:pickrun_new_client_app/widgets/order_text_field.dart';
 import 'package:pickrun_new_client_app/widgets/small_text.dart';
 
 
+// ignore: must_be_immutable
 class PickupForm extends StatefulWidget {
   var cat, wet;
-  PickupForm({Key? key, required this.cat, required this.wet}) : super(key: key);
+  var address, lat, lng;
+  PickupForm({Key? key, this.cat =" ", this.wet = " ", this.address = " ", this.lat = " ", this.lng = " "}) : super(key: key);
 
   @override
   State<PickupForm> createState() => _PickupFormState();
@@ -22,24 +24,21 @@ class _PickupFormState extends State<PickupForm> {
   
   String value = " ";
   TimeOfDay selectedTime = TimeOfDay.now();
-
-  TextEditingController controllerAddress =TextEditingController();
   TextEditingController controllerMobno =  TextEditingController();
-  TextEditingController controllerTime =  TextEditingController();
-  TextEditingController controllerInstruct =  TextEditingController();
-  TextEditingController controllerName =  TextEditingController();
-  TextEditingController controllerAddMobno =  TextEditingController();
-
-  
+    TextEditingController controllerTime =  TextEditingController();
+    TextEditingController controllerInstruct =  TextEditingController();
+    TextEditingController controllerName =  TextEditingController();
+    TextEditingController controllerAddMobno =  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controllerAddress =TextEditingController(text: widget.address);
+    
+    print("Selected Address:"+widget.address);
+    print(widget.lat);
     // form key
     // ignore: no_leading_underscores_for_local_identifiers, unused_local_variable
     final _formKey = GlobalKey<FormState>();
-    String category = '${widget.cat}';
-    String weight = '${widget.wet}';
-    print(category);
 
     // time display controller
     controllerTime.text =
@@ -65,14 +64,22 @@ class _PickupFormState extends State<PickupForm> {
             children: [
               OrderTextField(
                 tap: (){
-                  
+                  showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                      // <-- SEE HERE
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  builder: ((builder) => bottomSheet()));
                 },
                 control: controllerAddress, 
                 hint: 'Address', 
                 icon: Icons.location_on,
                 max: 7,
                 min: 1,
-                type: TextInputType.multiline,
+                //type: TextInputType.multiline,
                 valid: (String? value){
                   if (value!.isEmpty) {
                     return ("Address Mandatory *");
@@ -206,10 +213,15 @@ class _PickupFormState extends State<PickupForm> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: ((context) => DestinationForm(
                                       pic_add: controllerAddress.text,
-                                      pic_mob_no: controllerAddMobno.text,
+                                      pic_mob_no: controllerMobno.text,
                                       pic_time: controllerTime.text,
-                                      cat: category,
-                                      wet: weight,
+                                      cat: widget.cat,
+                                      wet: widget.wet,
+                                      pic_lat: widget.lat,
+                                      pic_lng: widget.lng,
+                                      instruct: controllerInstruct.text,
+                                      name: controllerName.text,
+                                      add_mob_no: controllerAddMobno.text,
                                     ))));
                           } else {
                             Fluttertoast.showToast(
@@ -245,6 +257,10 @@ class _PickupFormState extends State<PickupForm> {
       });
     }
   }
-
-  
+  Widget bottomSheet() {
+    return FractionallySizedBox(
+      heightFactor: 0.55,
+      child: MapUi(),
+    );
+  }
 }

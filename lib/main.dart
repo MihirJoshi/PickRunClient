@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
+// ignore: unused_import
 import 'package:pickrun_new_client_app/pages/home_page.dart';
 import 'package:pickrun_new_client_app/pages/item_select.dart';
-import 'package:pickrun_new_client_app/pages/map_screen.dart';
+// ignore: unused_import
+import 'package:pickrun_new_client_app/pages/map_ui.dart';
+// ignore: unused_import
 import 'package:pickrun_new_client_app/pages/pickup.dart';
+// ignore: unused_import
+import 'package:pickrun_new_client_app/pages/place_auto_complete.dart';
+// ignore: unused_import
 import 'package:pickrun_new_client_app/splash_screen.dart';
+// ignore: unused_import
 import 'package:pickrun_new_client_app/utils/dimensions.dart';
 
 
@@ -29,7 +36,7 @@ class MyApp extends StatelessWidget {
         
         primarySwatch: Colors.blue,
       ),
-      home:  const SplashScreen(),
+      home: const ItemSet(),
     );
   }
 }

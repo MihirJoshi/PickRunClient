@@ -261,6 +261,7 @@ class _LoginLogicState extends State<LoginLogic> {
           context: context);
       if (user != null) {
         try {
+          // ignore: unused_local_variable
           CollectionReference db =
               FirebaseFirestore.instance.collection('users');
           FirebaseFirestore.instance

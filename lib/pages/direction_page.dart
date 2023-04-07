@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pickrun_new_client_app/pages/login_page.dart';
+// ignore: unused_import
 import 'package:pickrun_new_client_app/pages/otp_genrate.dart';
 import 'package:pickrun_new_client_app/widgets/button_widget.dart';
 import 'package:pickrun_new_client_app/widgets/small_text.dart';

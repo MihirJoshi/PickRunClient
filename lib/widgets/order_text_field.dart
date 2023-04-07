@@ -10,7 +10,7 @@ class OrderTextField extends StatelessWidget {
   final String hint;
   final Color color;
   final Function()? tap;
-  OrderTextField({super.key, required this.control, required this.hint, required this.icon, required this.max, required this.min, required this.type, required this.valid, required this.color, this.tap});
+  OrderTextField({super.key, required this.control, required this.hint, required this.icon, required this.max, required this.min, this.type = TextInputType.text, required this.valid, required this.color, this.tap});
 
   @override
   Widget build(BuildContext context) {

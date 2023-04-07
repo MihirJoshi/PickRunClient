@@ -7,9 +7,9 @@ import 'package:flutter_geocoder/geocoder.dart';
 //import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pickrun_new_client_app/pages/desti_page.dart';
 // ignore: unused_import
 import 'package:pickrun_new_client_app/pages/map_ui.dart';
-import 'package:pickrun_new_client_app/pages/pickup.dart';
 import 'package:pickrun_new_client_app/widgets/button_widget.dart';
 import 'package:search_map_place_updated/search_map_place_updated.dart';
 import 'dart:collection';
@@ -18,14 +18,14 @@ import 'dart:convert';
 // ignore: unused_import
 import 'dart:developer';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+class DestinationMapScreen extends StatefulWidget {
+  const DestinationMapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<DestinationMapScreen> createState() => _DestinationMapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _DestinationMapScreenState extends State<DestinationMapScreen> {
   static const double _defaultLat = 21.1458;
   static const double _defaultLng = 79.0882;
 
@@ -33,9 +33,12 @@ class _MapScreenState extends State<MapScreen> {
   
   GoogleMapController? mapController;
   var myMarkers = HashSet<Marker>();
+  // ignore: prefer_typing_uninitialized_variables
   var pos;
+  // ignore: prefer_typing_uninitialized_variables
   var myPlace;
-  var myAddress;
+  // ignore: prefer_typing_uninitialized_variables
+  var destiAddress;
   Address? first;
   // ignore: unused_field
   final GeocodingPlatform _geocoding = GeocodingPlatform.instance;
@@ -45,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text("Google Search Places Api"),
+        title: const Text("Google Search Places Api"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -90,7 +93,7 @@ class _MapScreenState extends State<MapScreen> {
                     var finalAddress = '$subLocality, $addressWithoutBuilding, $locality $postalCode, $countryName';
                   
                     setState(() {
-                      myAddress = finalAddress;
+                      destiAddress = finalAddress;
                       myMarkers.add(
                         Marker(
                           markerId: const MarkerId('pickupLocation'),
@@ -118,7 +121,7 @@ class _MapScreenState extends State<MapScreen> {
                   markers: myMarkers,
                   ),
                   Align(alignment: Alignment.bottomCenter, child: Button_Widget(text: "Address", btn_width: 270, pressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PickupForm(address: myAddress, lat: pos.latitude, lng: pos.longitude,)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DestinationForm(desti_add: destiAddress, desti_lat: pos.latitude, desti_lng: pos.longitude,)));
                   }))
                   ] 
                 ),

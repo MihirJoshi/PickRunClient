@@ -259,7 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
             .then((value) => {postDetailsToFirebase()})
             .catchError((e) {
           Fluttertoast.showToast(msg: e!.message);
-        
+          return <dynamic>{};
         });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {

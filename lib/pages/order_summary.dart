@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 
+// ignore: must_be_immutable
 class OrderSummary extends StatefulWidget {
-  var p_add, p_mob_no, p_time, d_add, d_mob_no, d_time, cat_o, wet_o;
+  var p_add, p_mob_no, p_time, d_add, d_mob_no, d_time, cat_o, wet_o, p_instruct, p_name, p_add_mob_no, d_instruct, d_name, d_add_mob_no,p_lat, p_lng, d_lat, d_lng;
   OrderSummary(
       {Key? key,
       required this.p_add,
@@ -13,6 +14,16 @@ class OrderSummary extends StatefulWidget {
       required this.d_time,
       required this.cat_o,
       required this.wet_o,
+      required this.p_lat,
+      required this.p_lng,
+      required this.d_lat,
+      required this.d_lng,
+      this.p_instruct = "",
+      this.p_add_mob_no = "",
+      this.p_name = "",
+      this.d_instruct = "",
+      this.d_add_mob_no = "",
+      this.d_name = ""
       })
       : super(key: key);
 
@@ -23,6 +34,9 @@ class OrderSummary extends StatefulWidget {
 class _OrderSummaryState extends State<OrderSummary> {
   @override
   Widget build(BuildContext context) {
+    print(widget.p_instruct);
+    print(widget.d_lng);
+    print(widget.d_instruct);
     final procced_btn = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),

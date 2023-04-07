@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pickrun_new_client_app/pages/destination_ui.dart';
 import 'package:pickrun_new_client_app/pages/order_summary.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 import 'package:pickrun_new_client_app/utils/dimensions.dart';
+import 'package:pickrun_new_client_app/widgets/big_text.dart';
 import 'package:pickrun_new_client_app/widgets/button_widget.dart';
 import 'package:pickrun_new_client_app/widgets/order_text_field.dart';
 import 'package:pickrun_new_client_app/widgets/small_text.dart';
@@ -11,17 +13,26 @@ import 'package:pickrun_new_client_app/widgets/small_text.dart';
 // ignore: must_be_immutable
 class DestinationForm extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  var pic_add, pic_mob_no, pic_time, cat, wet;
+  var pic_add, pic_mob_no, pic_time, cat, wet, pic_lat, pic_lng, instruct, name, add_mob_no;
+  var  desti_add, desti_lat, desti_lng;
   DestinationForm(
       {Key? key,
       // ignore: non_constant_identifier_names
-      required this.pic_add,
+      this.pic_add = " ",
       // ignore: non_constant_identifier_names
-      required this.pic_mob_no,
+      this.pic_mob_no = " ",
       // ignore: non_constant_identifier_names
-      required this.pic_time,
-      required this.cat,
-      required this.wet,
+      this.pic_time = " ",
+      this.cat = " ",
+      this.wet = " ",
+      this.pic_lng = " ",
+      this.pic_lat = " ", 
+      this.instruct = "",
+      this.add_mob_no = " ",
+      this.name = " ",
+      this.desti_add = " ",
+      this.desti_lat = " ",
+      this.desti_lng = " ",
       })
       : super(key: key);
 
@@ -37,31 +48,36 @@ class _DestinationFormState extends State<DestinationForm> {
 //destination variables
   TextEditingController controllerDSecondMobileNo = TextEditingController();
   TextEditingController controllerDMobileNo =  TextEditingController();
-  TextEditingController controllerDAddress = TextEditingController();
   TextEditingController controllerDInstr =  TextEditingController();
   TextEditingController controllerDTime =  TextEditingController();
   TextEditingController controllerDNameOfPC =  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    String pAdd = '${widget.pic_add}';
-    // ignore: unused_local_variable
-    String pMobNo = '${widget.pic_mob_no}';
-    // ignore: unused_local_variable
-    String pTime = '${widget.pic_time}';
-    String category = '${widget.cat}';
-    String weight = '${widget.wet}';
-    print(weight);
-    
+    TextEditingController controllerDAddress = TextEditingController( text: widget.desti_add);
+    print(widget.instruct);
+    print(widget.desti_lng);
     // ignore: no_leading_underscores_for_local_identifiers, unused_local_variable
     final _formKey = GlobalKey<FormState>();
     // ignore: avoid_print
-    print(pAdd);
     controllerDTime.text =
         "${selectedTime1.hour.toString().padLeft(2, '0')}:${selectedTime1.minute.toString().padLeft(2, '0')} ${selectedTime1.period.toString().split('.')[1]}";
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
+        title: BigText(text: "Destination Point")
+      ),
         body: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -69,6 +85,17 @@ class _DestinationFormState extends State<DestinationForm> {
               children: [
                 OrderTextField(
                   control: controllerDAddress, 
+                  tap: (){
+                    showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                      // <-- SEE HERE
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  builder: ((builder) => bottomSheet()));
+                  },
                   hint: 'Address', 
                   icon: Icons.location_on, 
                   max: 7, 
@@ -202,14 +229,24 @@ class _DestinationFormState extends State<DestinationForm> {
                           controllerDTime.text.isNotEmpty) {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: ((context) => OrderSummary(
-                                  p_add: pAdd,
-                                  p_mob_no: pMobNo,
-                                  p_time: pTime,
-                                  d_add: controllerDAddress.text,
+                                  p_add: widget.pic_add,
+                                  p_mob_no: widget.pic_mob_no,
+                                  p_time: widget.pic_time,
+                                  d_add: widget.desti_add,
                                   d_mob_no: controllerDMobileNo.text,
                                   d_time: controllerDTime.text,
-                                  cat_o: category,
-                                  wet_o: weight,
+                                  cat_o: widget.cat,
+                                  wet_o: widget.wet,
+                                  p_instruct: widget.instruct,
+                                  p_add_mob_no: widget.add_mob_no,
+                                  p_name: widget.name,
+                                  p_lat: widget.pic_lat,
+                                  p_lng: widget.pic_lng,
+                                  d_instruct: controllerDInstr.text,
+                                  d_add_mob_no: controllerDSecondMobileNo.text,
+                                  d_name: controllerDNameOfPC.text,
+                                  d_lat: widget.desti_lat,
+                                  d_lng: widget.desti_lng,
                                 ))));
                       } else {
                         Fluttertoast.showToast(msg: "Please fill Mandatory* Field");
@@ -243,5 +280,11 @@ class _DestinationFormState extends State<DestinationForm> {
         print(timeOfDay);
       });
     }
+  }
+  Widget bottomSheet() {
+    return const FractionallySizedBox(
+      heightFactor: 0.55,
+      child: DestinationUi(),
+    );
   }
 }
