@@ -18,8 +18,11 @@ import 'dart:convert';
 // ignore: unused_import
 import 'dart:developer';
 
+// ignore: must_be_immutable
 class DestinationMapScreen extends StatefulWidget {
-  const DestinationMapScreen({super.key});
+  String category, pic_address, pic_time, email, pic_Instruct, pic_Mobno, pic_Smobno, pic_Name;
+  double weight, pic_lat, pic_lng;
+  DestinationMapScreen({super.key, this.category = " ", this.pic_address = " ", this.pic_time = " ", this.pic_lat = 0.0, this.weight = 0.0, this.pic_lng = 0.0, this.email = " ", this.pic_Instruct = " ", this.pic_Mobno = " ", this.pic_Name = " ", this.pic_Smobno = " "});
 
   @override
   State<DestinationMapScreen> createState() => _DestinationMapScreenState();
@@ -50,11 +53,10 @@ class _DestinationMapScreenState extends State<DestinationMapScreen> {
         elevation: 0,
         title: const Text("Google Search Places Api"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: SingleChildScrollView(
-          child: Container(
-            height: 700,
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 SearchMapPlaceWidget(
@@ -121,7 +123,7 @@ class _DestinationMapScreenState extends State<DestinationMapScreen> {
                   markers: myMarkers,
                   ),
                   Align(alignment: Alignment.bottomCenter, child: Button_Widget(text: "Address", btn_width: 270, pressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DestinationForm(desti_add: destiAddress, desti_lat: pos.latitude, desti_lng: pos.longitude,)));
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => DestinationForm(category: widget.category, weight: widget.weight, pic_address: widget.pic_address, pic_lat: widget.pic_lat, pic_time: widget.pic_time, pic_lng: widget.pic_lng, desti_address: destiAddress, desti_lat: pos.latitude, desti_lng: pos.longitude, email: widget.email, pic_Mobno: widget.pic_Mobno, pic_Instruct: widget.pic_Instruct, pic_Name: widget.pic_Name, pic_Smobno: widget.pic_Smobno,)));
                   }))
                   ] 
                 ),

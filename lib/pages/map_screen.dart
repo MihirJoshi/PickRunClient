@@ -19,7 +19,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  String category;
+  double weight;
+  MapScreen({super.key, this.category = " ", this.weight = 0.0});
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -33,8 +35,11 @@ class _MapScreenState extends State<MapScreen> {
   
   GoogleMapController? mapController;
   var myMarkers = HashSet<Marker>();
+  // ignore: prefer_typing_uninitialized_variables
   var pos;
+  // ignore: prefer_typing_uninitialized_variables
   var myPlace;
+  // ignore: prefer_typing_uninitialized_variables
   var myAddress;
   Address? first;
   // ignore: unused_field
@@ -43,91 +48,95 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text("Google Search Places Api"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: SingleChildScrollView(
-          child: Container(
-            height: 700,
-            child: Column(
-              children: [
-                SearchMapPlaceWidget(
-                  textColor: Colors.black,
-                  bgColor: Colors.white,
-                  hasClearButton: true,
-                  placeType: PlaceType.address,
-                  placeholder: 'Enter the location',
-                  apiKey: 'AIzaSyBLdWndJ3LzSROLrd-e3Mo_AaaeP6WwOCk',
-                  onSelected: (Place place) async {
-                    Geolocation? geolocation = await place.geolocation;
-                    mapController?.animateCamera(
-                      CameraUpdate.newLatLng(geolocation?.coordinates),
-                    );
-                    mapController?.animateCamera(
-                      CameraUpdate.newLatLngBounds(geolocation?.bounds, 0),
-                    );
-                    pos = geolocation?.coordinates;
-                    final coordinates = Coordinates(pos.latitude, pos.longitude);
-                    print(pos.latitude);
-                    print(pos.longitude);
-                    List<Address> address =
-                        await Geocoder.local.findAddressesFromCoordinates(
-                            coordinates);
-                    if (address.isNotEmpty) {
-                      first = address.first;
-                    }
-                    var addressLine = first?.addressLine;
-                    var subLocality = first?.subLocality;
-                    var locality = first?.locality;
-                    var postalCode = first?.postalCode;
-                    var countryName = first?.countryName;
-                  
-                    var addressWithoutBuilding =
-                        addressLine!.replaceFirst(RegExp(subLocality!), '');
-                    var finalAddress = '$subLocality, $addressWithoutBuilding, $locality $postalCode, $countryName';
-                  
-                    setState(() {
-                      myAddress = finalAddress;
-                      myMarkers.add(
-                        Marker(
-                          markerId: const MarkerId('pickupLocation'),
-                          position: pos,
-                          icon: BitmapDescriptor.defaultMarker,
-                          infoWindow: const InfoWindow(
-                            title: 'Pickup Address',
-                          ),
-                        ),
-                      );
-                    });
-                  },
-                ),
-                SizedBox(height: 600.0,
-                child: Stack(
-                  children:[
-                    GoogleMap(
+    appBar: AppBar(
+      elevation: 0,
+      title: const Text("Google Search Places Api"),
+    ),
+    body: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SearchMapPlaceWidget(
+              textColor: Colors.black,
+              bgColor: Colors.white,
+              hasClearButton: true,
+              placeType: PlaceType.address,
+              placeholder: 'Enter the location',
+              apiKey: 'AIzaSyBLdWndJ3LzSROLrd-e3Mo_AaaeP6WwOCk',
+              onSelected: (Place place) async {
+                Geolocation? geolocation = await place.geolocation;
+                mapController?.animateCamera(
+                  CameraUpdate.newLatLng(geolocation?.coordinates),
+                );
+                mapController?.animateCamera(
+                  CameraUpdate.newLatLngBounds(geolocation?.bounds, 0),
+                );
+                pos = geolocation?.coordinates;
+                final coordinates = Coordinates(pos.latitude, pos.longitude);
+                
+                List<Address> address =
+                    await Geocoder.local.findAddressesFromCoordinates(
+                        coordinates);
+                if (address.isNotEmpty) {
+                  first = address.first;
+                }
+                var addressLine = first?.addressLine;
+                var subLocality = first?.subLocality;
+                var locality = first?.locality;
+                var postalCode = first?.postalCode;
+                var countryName = first?.countryName;
+              
+                var addressWithoutBuilding =
+                    addressLine!.replaceFirst(RegExp(subLocality!), '');
+                var finalAddress = '$subLocality, $addressWithoutBuilding, $locality $postalCode, $countryName';
+              
+                setState(() {
+                  myAddress = finalAddress;
+                  myMarkers.add(
+                    Marker(
+                      markerId: const MarkerId('pickupLocation'),
+                      position: pos,
+                      icon: BitmapDescriptor.defaultMarker,
+                      infoWindow: const InfoWindow(
+                        title: 'Pickup Address',
+                      ),
+                    ),
+                  );
+                });
+              },
+            ),
+            SizedBox(
+              height: 600.0,
+              child: Stack(
+                children:[
+                  GoogleMap(
                     onMapCreated: (GoogleMapController googleMapController){
                       setState(() {  
                         mapController = googleMapController;
                       });
                     },
                     initialCameraPosition: _defaultLocation,
-                  mapType: MapType.normal,
-                  markers: myMarkers,
+                    mapType: MapType.normal,
+                    markers: myMarkers,
                   ),
-                  Align(alignment: Alignment.bottomCenter, child: Button_Widget(text: "Address", btn_width: 270, pressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PickupForm(address: myAddress, lat: pos.latitude, lng: pos.longitude,)));
-                  }))
-                  ] 
-                ),
-                ),
-              ],
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Button_Widget(
+                      text: "Address",
+                      btn_width: 270,
+                      pressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PickupForm(pic_address: myAddress, pic_lat: pos.latitude, pic_lng: pos.longitude, category: widget.category, weight: widget.weight,)));
+                      }
+                    )
+                  )
+                ] 
+              ),
             ),
-          ),
+          ],
         ),
       ),
-    );
+    ),
+  );
   }
 }

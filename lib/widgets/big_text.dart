@@ -21,6 +21,7 @@ class BigText extends StatelessWidget {
     return Text(
       text,
       maxLines: maxLines,
+      
       overflow: overflow,
       style: TextStyle(
           fontFamily: "Roboto",

@@ -22,7 +22,9 @@ class _ItemSetState extends State<ItemSet> {
   String? category;
   @override
   Widget build(BuildContext context) {
-    String weightRange = "${_currentRangeValues.start} kg - ${_currentRangeValues.end} kg";
+    double weightStart = _currentRangeValues.start;
+    double weightEnd = _currentRangeValues.end;
+    double weightRange = weightEnd;
     // ignore: unused_local_variable
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -178,12 +180,11 @@ class _ItemSetState extends State<ItemSet> {
                       Button_Widget(text: "Proceed", btn_width: 240, 
                       pressed: (){
                         // ignore: avoid_print
-                        print(category);
-                        print(weightRange[9]);
+                       
                           if (category != null) {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => PickupForm(
-                              cat: category,
-                              wet: weightRange[9],
+                              category: category!,
+                              weight: weightRange,
                             )));
                           } else {
                             Fluttertoast.showToast(

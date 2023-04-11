@@ -18,8 +18,9 @@ import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class DestinationUi extends StatefulWidget {
-  
-  const DestinationUi({super.key});
+  String category, pic_address, pic_time, email, pic_Mobno, pic_Name, pic_Smobno, pic_Instruct;
+  double weight, pic_lat, pic_lng;
+  DestinationUi({super.key, this.category = " ", this.pic_address = " ", this.pic_time = " ", this.weight = 0.0, this.pic_lat = 0.0, this.pic_lng = 0.0, this.email = " ", this.pic_Instruct = " ", this.pic_Mobno = " ", this.pic_Name = " ", this.pic_Smobno = " "});
 
   @override
   State<DestinationUi> createState() => _DestinationUiState();
@@ -90,7 +91,7 @@ class _DestinationUiState extends State<DestinationUi> {
                     // add your floating action button
                     child: FloatingActionButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => DestinationMapScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => DestinationMapScreen(category: widget.category, weight: widget.weight, pic_address: widget.pic_address, pic_lat: widget.pic_lat, pic_lng: widget.pic_lng, pic_time: widget.pic_time, email: widget.email, pic_Instruct: widget.pic_Instruct, pic_Mobno: widget.pic_Mobno, pic_Name: widget.pic_Name, pic_Smobno: widget.pic_Smobno,)));
                       },
                       child:const Icon(Icons.location_searching),
                     ),

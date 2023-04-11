@@ -7,6 +7,7 @@ import 'package:pickrun_new_client_app/pages/home_page.dart';
 import 'package:pickrun_new_client_app/pages/item_select.dart';
 // ignore: unused_import
 import 'package:pickrun_new_client_app/pages/map_ui.dart';
+import 'package:pickrun_new_client_app/pages/order_summary.dart';
 // ignore: unused_import
 import 'package:pickrun_new_client_app/pages/pickup.dart';
 // ignore: unused_import
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         
         primarySwatch: Colors.blue,
       ),
-      home: const ItemSet(),
+      home: ItemSet(),
     );
   }
 }

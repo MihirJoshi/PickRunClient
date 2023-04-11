@@ -12,9 +12,9 @@ import 'package:pickrun_new_client_app/widgets/small_text.dart';
 
 // ignore: must_be_immutable
 class PickupForm extends StatefulWidget {
-  var cat, wet;
-  var address, lat, lng;
-  PickupForm({Key? key, this.cat =" ", this.wet = " ", this.address = " ", this.lat = " ", this.lng = " "}) : super(key: key);
+  String category, pic_address;
+  double weight, pic_lat, pic_lng;
+  PickupForm({Key? key, required this.category,required this.weight, this.pic_address = " ", this.pic_lat = 0.0, this.pic_lng = 0.0}) : super(key: key);
 
   @override
   State<PickupForm> createState() => _PickupFormState();
@@ -25,17 +25,15 @@ class _PickupFormState extends State<PickupForm> {
   String value = " ";
   TimeOfDay selectedTime = TimeOfDay.now();
   TextEditingController controllerMobno =  TextEditingController();
-    TextEditingController controllerTime =  TextEditingController();
-    TextEditingController controllerInstruct =  TextEditingController();
-    TextEditingController controllerName =  TextEditingController();
-    TextEditingController controllerAddMobno =  TextEditingController();
+  TextEditingController controllerTime =  TextEditingController();
+  TextEditingController controllerInstruct =  TextEditingController();
+  TextEditingController controllerName =  TextEditingController();
+  TextEditingController controllerAddMobno =  TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controllerAddress =TextEditingController(text: widget.address);
-    
-    print("Selected Address:"+widget.address);
-    print(widget.lat);
+    TextEditingController controllerAddress =TextEditingController(text: widget.pic_address);
     // form key
     // ignore: no_leading_underscores_for_local_identifiers, unused_local_variable
     final _formKey = GlobalKey<FormState>();
@@ -102,6 +100,27 @@ class _PickupFormState extends State<PickupForm> {
                       }
                       if (!regex.hasMatch(value)) {
                         return ("Enter Valid Mobile Number");
+                      }
+                      return null;
+                }, 
+                color: AppColors.phonecolor),
+              const SizedBox(
+                height: 20,
+              ),
+              OrderTextField(
+                control: controllerEmail,
+                hint: 'Email', 
+                icon: Icons.phone, 
+                max: 1, 
+                min: 1, 
+                type: TextInputType.emailAddress, 
+                valid: (String? value){
+                  RegExp regex = RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]");
+                      if (value!.isEmpty) {
+                        return ("Email Mandatory *");
+                      }
+                      if (!regex.hasMatch(value)) {
+                        return ("Enter Valid Email");
                       }
                       return null;
                 }, 
@@ -209,20 +228,8 @@ class _PickupFormState extends State<PickupForm> {
                         pressed: () {
                           if (controllerAddress.text.isNotEmpty &&
                               controllerMobno.text.isNotEmpty &&
-                              controllerTime.text.isNotEmpty) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => DestinationForm(
-                                      pic_add: controllerAddress.text,
-                                      pic_mob_no: controllerMobno.text,
-                                      pic_time: controllerTime.text,
-                                      cat: widget.cat,
-                                      wet: widget.wet,
-                                      pic_lat: widget.lat,
-                                      pic_lng: widget.lng,
-                                      instruct: controllerInstruct.text,
-                                      name: controllerName.text,
-                                      add_mob_no: controllerAddMobno.text,
-                                    ))));
+                              controllerTime.text.isNotEmpty && controllerEmail.text.isNotEmpty) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DestinationForm(category: widget.category, weight: widget.weight, pic_address: widget.pic_address, pic_lat: widget.pic_lat, pic_time: controllerTime.text, pic_lng: widget.pic_lng, email: controllerEmail.text, pic_Mobno: controllerAddMobno.text, pic_Instruct: controllerInstruct.text, pic_Name: controllerName.text, pic_Smobno: controllerAddMobno.text,)));
                           } else {
                             Fluttertoast.showToast(
                                 msg: "Please fill Mandatory Field *");
@@ -259,8 +266,8 @@ class _PickupFormState extends State<PickupForm> {
   }
   Widget bottomSheet() {
     return FractionallySizedBox(
-      heightFactor: 0.55,
-      child: MapUi(),
+      heightFactor: 0.75,
+      child: MapUi(category: widget.category, weight: widget.weight,),
     );
   }
 }

@@ -1,29 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pickrun_new_client_app/models/order_model.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
+import 'package:pickrun_new_client_app/widgets/big_text.dart';
+import 'package:pickrun_new_client_app/widgets/button_widget.dart';
 
 // ignore: must_be_immutable
 class OrderSummary extends StatefulWidget {
-  var p_add, p_mob_no, p_time, d_add, d_mob_no, d_time, cat_o, wet_o, p_instruct, p_name, p_add_mob_no, d_instruct, d_name, d_add_mob_no,p_lat, p_lng, d_lat, d_lng;
+  // ignore: non_constant_identifier_names
+  String category, pic_address, pic_time, desti_address, desti_time, orderId, cod, pic_Mobno, email, pic_Instruct, pic_Name, pic_Smobno, destiMobno, desti_Instruct, desti_name, desti_Smobno;
+  // ignore: non_constant_identifier_names
+  double weight, pic_lat, pic_lng, desti_lat, desti_lng, cost, distance;
   OrderSummary(
       {Key? key,
-      required this.p_add,
-      required this.p_mob_no,
-      required this.p_time,
-      required this.d_add,
-      required this.d_mob_no,
-      required this.d_time,
-      required this.cat_o,
-      required this.wet_o,
-      required this.p_lat,
-      required this.p_lng,
-      required this.d_lat,
-      required this.d_lng,
-      this.p_instruct = "",
-      this.p_add_mob_no = "",
-      this.p_name = "",
-      this.d_instruct = "",
-      this.d_add_mob_no = "",
-      this.d_name = ""
+        required this.category,
+        required this.cod,
+        // ignore: non_constant_identifier_names
+        required this.pic_address, 
+        // ignore: non_constant_identifier_names
+        required this.pic_lat,
+        // ignore: non_constant_identifier_names
+        required this.pic_lng, 
+        // ignore: non_constant_identifier_names
+        required this.pic_time,
+        required this.weight,
+        // ignore: non_constant_identifier_names
+        required this.desti_address,
+        // ignore: non_constant_identifier_names
+        required this.desti_lat,
+        // ignore: non_constant_identifier_names
+        required this.desti_lng,
+        // ignore: non_constant_identifier_names
+        required this.desti_time,
+        required this.orderId,
+        required this.distance,
+        required this.cost,
+        required this.destiMobno,
+        this.desti_Instruct = " ",
+        this.desti_Smobno = " ",
+        this.desti_name = " ",
+        required this.email,
+        this.pic_Instruct = " ",
+        required this.pic_Mobno,
+        this.pic_Name = " ",
+        this.pic_Smobno = " ",
       })
       : super(key: key);
 
@@ -32,45 +54,24 @@ class OrderSummary extends StatefulWidget {
 }
 
 class _OrderSummaryState extends State<OrderSummary> {
+  final _firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  OrderModel orders = OrderModel();
   @override
   Widget build(BuildContext context) {
-    print(widget.p_instruct);
-    print(widget.d_lng);
-    print(widget.d_instruct);
-    final procced_btn = Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: AppColors.circlecolor,
-      child: MaterialButton(
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: 240,
-        onPressed: () {
-          
-        },
-        child: Text(
-          "Place Order",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontFamily: "Roboto"),
-        ),
-      ),
-    );
+    double price = widget.cost;
     return Scaffold(
       //extendBodyBehindAppBar: true,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                decoration: const BoxDecoration(
                     color: AppColors.ordercolor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -79,7 +80,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                         bottomRight: Radius.circular(20)),
                     boxShadow: [
                       BoxShadow(
-                          offset: const Offset(2.0, 2.0),
+                          offset: Offset(2.0, 2.0),
                           color: AppColors.ordercolor)
                     ]),
                 height: 160,
@@ -88,109 +89,73 @@ class _OrderSummaryState extends State<OrderSummary> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 20, left: 25),
+                        padding: const EdgeInsets.only(top: 20, left: 25),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Item Deliver :-",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                            )),
+                            child: BigText(text: "Item Deliver :-", size: 20, color: Colors.grey,),
+                          ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
-                        padding: EdgeInsets.only(top: 20, right: 35),
+                        padding: const EdgeInsets.only(top: 20, right: 35),
                         child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              '${widget.cat_o}',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
+                            child: BigText(text: widget.category, size: 20, color: Colors.black,),
+                          ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 20, left: 25),
+                        padding: const EdgeInsets.only(top: 20, left: 25),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Item Weight :-",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                            )),
+                            child: BigText(text: "Item Weight :-", size: 20, color: Colors.grey,),
+                          ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         padding: EdgeInsets.only(top: 20, right: 35),
                         child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              '${widget.wet_o}' + ' ''KG',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
+                            child: BigText(text: '${widget.weight}' ' ''KG', size: 20, color: Colors.black,),
+                          ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(top: 20, left: 25),
+                        padding: const EdgeInsets.only(top: 20, left: 25),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Payment Mode :-",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                            )),
+                            child: BigText(text: "Payment :-", size: 20, color: Colors.grey,)
+                          ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
-                        padding: EdgeInsets.only(top: 20, right: 35),
+                        padding: const EdgeInsets.only(top: 20, right: 35),
                         child: Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              "Cash",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
+                            child: BigText(text: widget.cod, size: 20, color: Colors.black,)
+                          ),
                       ),
                     ],
                   ),
                 ]),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Container(
-                padding: EdgeInsets.only(left: 50),
+                padding: const EdgeInsets.only(left: 50),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "From",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
+                  child: BigText(text: "From", size: 20, color: Colors.black,),
                 ),
               ),
-              Divider(
+              const Divider(
                 indent: 40,
                 endIndent: 40,
                 thickness: 1,
@@ -199,71 +164,32 @@ class _OrderSummaryState extends State<OrderSummary> {
               Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 55, top: 25),
+                    padding: const EdgeInsets.only(left: 55, top: 25),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${widget.p_add}",
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      child: BigText(text: widget.pic_address, size: 20, color: Colors.black,  maxLines: 5, overflow: TextOverflow.ellipsis,)
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 55, top: 15),
+                    padding: const EdgeInsets.only(left: 55, top: 15),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${widget.p_time}",
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      child: BigText(text: "Today ${widget.pic_time}", size: 20, color: Colors.black),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 55, top: 15),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Icon(
-                            Icons.payments,
-                            size: 28,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 15, top: 15),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Cash",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Container(
-                padding: EdgeInsets.only(left: 50),
+                padding: const EdgeInsets.only(left: 50),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "To",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
+                  child: BigText(text: "To", size: 20, color: Colors.black,)
                 ),
               ),
-              Divider(
+              const Divider(
                 indent: 40,
                 endIndent: 40,
                 thickness: 1,
@@ -272,68 +198,74 @@ class _OrderSummaryState extends State<OrderSummary> {
               Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 55, top: 25),
+                    padding: const EdgeInsets.only(left: 55, top: 25),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${widget.d_add}",
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      child: BigText(text: widget.desti_address, size: 20, color: Colors.black,  maxLines: 5, overflow: TextOverflow.ellipsis,)
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 55, top: 15),
+                    padding: const EdgeInsets.only(left: 55, top: 15),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${widget.d_time}",
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                      child: BigText(text: "Today ${widget.desti_time}", size: 20, color: Colors.black,)
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 65),
+                    padding: const EdgeInsets.only(left: 65),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Totoal Cost :-",
-                        style:
-                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
+                      child: BigText(text: "Total Cost", size: 20, color: Colors.black,)
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
-                    padding: EdgeInsets.only(right: 65),
+                    padding: const EdgeInsets.only(right: 65),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        "₹ 150",
-                        style:
-                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
+                      child: BigText(text: price.toStringAsFixed(2), size: 20, color: Colors.black,)
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [procced_btn],
-                ),
-              ),
-              SizedBox(
+              const SizedBox(height: 20),
+              Button_Widget(text: "Submit", btn_width: 270, pressed: (){
+                _firestore.collection('orders').add({
+                  'orderId': widget.orderId,
+                  'picAddress': widget.pic_address,
+                  'picMobno': widget.pic_Mobno,
+                  'picTime': widget.pic_time,
+                  'email': widget.email,
+                  'picInstruct': widget.pic_Instruct,
+                  'picName': widget.pic_Name,
+                  'picSMobno': widget.pic_Smobno,
+                  'destiAddress': widget.desti_address,
+                  'destiMobno': widget.destiMobno,
+                  'destiTime': widget.desti_time,
+                  'destiInstruct': widget.desti_Instruct,
+                  'destiName': widget.desti_name,
+                  'destiSmobno': widget.desti_Smobno,
+                  'category': widget.category,
+                  'weight': widget.weight,
+                  'picLat': widget.pic_lat,
+                  'picLng': widget.pic_lng,
+                  'codType': widget.cod,
+                  'distance': widget.distance,
+                  'price': widget.cost,
+                  'distLat': widget.desti_lat,
+                  'distLng': widget.desti_lng,
+                  'status': 'available',
+                });
+                Fluttertoast.showToast(msg: "${widget.orderId} Order Place Successfully!!");
+              }),
+              const SizedBox(
                 height: 30,
               )
             ],

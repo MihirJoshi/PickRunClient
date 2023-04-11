@@ -13,12 +13,14 @@ import 'package:pickrun_new_client_app/widgets/map_text_field.dart';
 import 'package:pickrun_new_client_app/widgets/order_text_field.dart';
 // ignore: unused_import
 import 'package:pickrun_new_client_app/widgets/text_field_widget.dart';
+// ignore: unnecessary_import
 import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class MapUi extends StatefulWidget {
-  
-  const MapUi({super.key});
+  String category;
+  double weight;
+  MapUi({super.key, this.category = " ", this.weight = 0.0});
 
   @override
   State<MapUi> createState() => _MapUiState();
@@ -32,6 +34,7 @@ class _MapUiState extends State<MapUi> {
   
   
   final LatLng _position = const LatLng(19.218330, 72.978088);
+  @override
   Widget build(BuildContext context) {
     //print("Fetched address:"+widget.address);
   // ignore: unused_local_variable
@@ -40,7 +43,7 @@ class _MapUiState extends State<MapUi> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget> [
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             Center(
               child: Container(
                 width: 300,
@@ -71,7 +74,7 @@ class _MapUiState extends State<MapUi> {
               ],
               ),
               child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               child: Stack(
                 children: <Widget>[
                   GoogleMap(
@@ -88,7 +91,7 @@ class _MapUiState extends State<MapUi> {
                     // add your floating action button
                     child: FloatingActionButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreen(category: widget.category, weight: widget.weight,)));
                       },
                       child:const Icon(Icons.location_searching),
                     ),
@@ -99,7 +102,7 @@ class _MapUiState extends State<MapUi> {
               ),
               ),
             ),
-            SizedBox(height: 25,),
+            const SizedBox(height: 25,),
             MapTextField(text: "Address",
             control: myController,
             valid: (String? value){
@@ -108,9 +111,9 @@ class _MapUiState extends State<MapUi> {
                   }
                   return null;
                 },),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Button_Widget(text: "Get Address", btn_width: 270, pressed: (){}),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             
           ],
         ),
