@@ -1,3 +1,5 @@
+import 'package:flutter/src/material/card.dart';
+
 class OrderModel {
   String? uid;
   String? orderId;
@@ -24,8 +26,15 @@ class OrderModel {
   double? distLat;
   double? distLng;
   String? status;
+  String? driverId;
+  String? driverName;
+  String? driverMobno;
+  String? driverUid;
+  String? orderCode;
+  String? parcelPhoto;
+  String? parcelStatus;
 
-  OrderModel({this.uid, this.category, this.codType, this.destiAddress, this.destiMobno, this.destiTime, this.distLat, this.distLng, this.distance, this.orderId, this.picAddress, this.picLat, this.picLng, this.picMobno, this.picTime, this.price, this.weight, this.destiInstruct, this.destiName, this.destiSmobno, this.email, this.picInstruct, this.picName, this.picSmobno, this.status});
+  OrderModel({this.uid, this.category, this.codType, this.destiAddress, this.destiMobno, this.destiTime, this.distLat, this.distLng, this.distance, this.orderId, this.picAddress, this.picLat, this.picLng, this.picMobno, this.picTime, this.price, this.weight, this.destiInstruct, this.destiName, this.destiSmobno, this.email, this.picInstruct, this.picName, this.picSmobno, this.status, this.driverId, this.driverMobno, this.driverName, this.driverUid, this.orderCode, this.parcelPhoto, this.parcelStatus});
 
   // recieving data from the server
 
@@ -55,7 +64,14 @@ class OrderModel {
       price: map['price'].toDouble(),
       distLat: map['distLat'].toDouble(),
       distLng: map['distLng'].toDouble(),
-      status: map['status']
+      status: map['status'],
+      driverId: map['driverId'],
+      driverMobno: map['driverMobno'],
+      driverName: map['driverName'],
+      driverUid: map['driverUid'],
+      orderCode: map['orderCode'],
+      parcelPhoto: map['parcelPhoto'],
+      parcelStatus: map['parcelStatus'],
     );
   }
 
@@ -88,6 +104,14 @@ class OrderModel {
       'distLat': distLat,
       'distLng': distLng,
       'status': status,
+      'driverId': driverId,
+      'driverName': driverName,
+      'driverMobno': driverMobno,
+      'driverUid': driverUid,
+      'orderCode': orderCode,
+      'parcelPhoto': parcelPhoto,
+      'parcelStatus': parcelStatus
     };
   }
+
 }

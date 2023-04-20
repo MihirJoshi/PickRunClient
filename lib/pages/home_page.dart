@@ -1,16 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pickrun_new_client_app/models/user_model.dart';
 import 'package:pickrun_new_client_app/pages/item_select.dart';
+import 'package:pickrun_new_client_app/pages/login_page.dart';
+import 'package:pickrun_new_client_app/pages/order_history.dart';
+import 'package:pickrun_new_client_app/pages/track_order.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 import 'package:pickrun_new_client_app/widgets/app_drawer.dart';
 import 'package:pickrun_new_client_app/widgets/small_text.dart';
 import 'package:pickrun_new_client_app/widgets/image_widget.dart';
 
 // ignore: camel_case_types
-class Home_Page extends StatelessWidget {
-  const Home_Page({super.key});
+class Home_Page extends StatefulWidget {
+  String? users;
+  Home_Page({super.key, this.users = ""});
 
   @override
+  State<Home_Page> createState() => _Home_PageState();
+}
+
+class _Home_PageState extends State<Home_Page> {
+  
+  
+  @override
+  
+  @override
   Widget build(BuildContext context) {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //List? isLoggedIn = [];
+    print("Home Page Uid${widget.users}");
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       extendBodyBehindAppBar: true,
@@ -18,7 +37,7 @@ class Home_Page extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      drawer: const App_Dreawer(),
+      drawer: App_Dreawer(users: widget.users!,),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -86,24 +105,37 @@ class Home_Page extends StatelessWidget {
                       const SizedBox(width: 30,),
                       InkWell(
                         onTap: (() {
-                          /*Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => pickup()),
-                          );*/
-                        }),
+                          if(widget.users != " ")
+                        {
+                          print(widget.users);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TrackOrder(userUid: widget.users!,)));
+                        }
+                        else
+                        {
+                          _showLoginDialog(context);
+                        }
+                      }),
                         child: const Image_Widget(url: "assets/new_set2.png"),
                       ),
                       
                       const SizedBox(width: 28,),
                       InkWell(
-                        onTap: (() {
-                          /*Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => pickup()),
-                          );*/
-                        }),
-                        child: const Image_Widget(url: "assets/new_set3.png"),
-                      ),
+                      onTap: (() {
+                        if(widget.users != " ")
+                        {
+                          
+                          print(widget.users);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OrderHistory(userUid: widget.users!,)));
+                        }
+                        else
+                        {
+                          _showLoginDialog(context);
+                        }
+                      }),
+
+  child: const Image_Widget(url: "assets/new_set3.png"),
+)
+
                     ],
                   ),
                   // ignore: prefer_const_constructors
@@ -120,7 +152,7 @@ class Home_Page extends StatelessWidget {
                       SmallText(text: "New Order", size: 16, color: Colors.black,),
                       const SizedBox(width: 40,),
                       SmallText(text: "Track Order", size: 16, color: Colors.black,),
-                      const SizedBox(width: 50,),
+                      const SizedBox(width: 30,),
                       SmallText(text: "Orders", size: 16, color: Colors.black,),
                     ],
                   ),
@@ -158,4 +190,38 @@ class Home_Page extends StatelessWidget {
       ),
     );
   }
+  Future<void> _showLoginDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Login Required'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Please log in to place an order.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Login'),
+              onPressed: () {
+                // Implement your login logic here
+                //isLoggedIn = true;
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  
 }

@@ -47,6 +47,7 @@ class LoginLogic extends StatefulWidget {
 }
 
 class _LoginLogicState extends State<LoginLogic> {
+
   bool _isObscure = true;
   // form key
 
@@ -61,6 +62,9 @@ class _LoginLogicState extends State<LoginLogic> {
 
   // string for displaying the error Message
   String? errorMessage;
+
+
+  List? isLoggedIn = [];
 
   
   @override
@@ -239,6 +243,8 @@ class _LoginLogicState extends State<LoginLogic> {
       {required String email,
       required String password,
       required BuildContext context}) async {
+    print(email);
+    print(password);
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
@@ -248,6 +254,9 @@ class _LoginLogicState extends State<LoginLogic> {
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         Fluttertoast.showToast(msg: "No user Found with this Email Address");
+      }
+      if (e.code != password) {
+        Fluttertoast.showToast(msg: "Password is not match");
       }
     }
     return user;
@@ -261,26 +270,23 @@ class _LoginLogicState extends State<LoginLogic> {
           context: context);
       if (user != null) {
         try {
-          // ignore: unused_local_variable
-          CollectionReference db =
-              FirebaseFirestore.instance.collection('users');
           FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
               .get()
               .then((value) {
-            loggedInUser = UserModel.fromMap(value.data());
-            // ignore: unrelated_type_equality_checks
+            this.loggedInUser = UserModel.fromMap(value.data());
+            print("Uid is:${loggedInUser.uid}");
             if (loggedInUser.uid == []) {
               Fluttertoast.showToast(msg: "Malpractice found");
             } else {
               Fluttertoast.showToast(msg: "Login Successful");
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const Home_Page()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => Home_Page(users: loggedInUser.uid,)));
             }
           });
-        } on FirebaseAuthException catch (e) {
-          print(e.message);
+        } on NoSuchMethodError {
+          Fluttertoast.showToast(msg: "Entered id is not a Patient ID");
         }
       }
     }

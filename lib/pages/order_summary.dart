@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pickrun_new_client_app/models/order_model.dart';
+import 'package:pickrun_new_client_app/pages/order_code.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 import 'package:pickrun_new_client_app/widgets/big_text.dart';
 import 'package:pickrun_new_client_app/widgets/button_widget.dart';
@@ -237,8 +238,9 @@ class _OrderSummaryState extends State<OrderSummary> {
               ),
               const SizedBox(height: 20),
               Button_Widget(text: "Submit", btn_width: 270, pressed: (){
-                _firestore.collection('orders').add({
+                /*_firestore.collection('orders').add({
                   'orderId': widget.orderId,
+                  'uid': user?.uid,
                   'picAddress': widget.pic_address,
                   'picMobno': widget.pic_Mobno,
                   'picTime': widget.pic_time,
@@ -262,8 +264,25 @@ class _OrderSummaryState extends State<OrderSummary> {
                   'distLat': widget.desti_lat,
                   'distLng': widget.desti_lng,
                   'status': 'available',
+                  'driverId': ' ',
+                  'driverName': ' ',
+                  'driverMobno': ' ',
+                  'driverUid': ' ',
+                  'parcelPhoto': ' ',
+                  'orderCode': ' ',
+                  'parcelStatus': ' ',
                 });
-                Fluttertoast.showToast(msg: "${widget.orderId} Order Place Successfully!!");
+                Fluttertoast.showToast(msg: "${widget.orderId} Order Place Successfully!!");*/
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                      // <-- SEE HERE
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  builder: ((builder) => bottomSheet()));
+
               }),
               const SizedBox(
                 height: 30,
@@ -272,6 +291,12 @@ class _OrderSummaryState extends State<OrderSummary> {
           ),
         ),
       ),
+    );
+  }
+  Widget bottomSheet() {
+    return FractionallySizedBox(
+      heightFactor: 0.55,
+      child: OrderCode(category: widget.category, cod: widget.cod, pic_address: widget.pic_address, pic_lat: widget.pic_lat, pic_lng: widget.pic_lng, pic_time: widget.pic_time, weight: widget.weight, desti_address: widget.desti_address, desti_lat: widget.desti_lat, desti_lng: widget.desti_lng, desti_time: widget.desti_time, orderId: widget.orderId, cost: widget.cost, distance: widget.distance, email: widget.email, pic_Mobno: widget.pic_Mobno, pic_Instruct: widget.pic_Instruct, pic_Name: widget.pic_Name, pic_Smobno: widget.pic_Smobno, destiMobno: widget.destiMobno, desti_Instruct: widget.desti_Instruct, desti_Smobno: widget.desti_Smobno, desti_name: widget.desti_name),
     );
   }
 }

@@ -66,7 +66,8 @@ class _Info_Page_3State extends State<Info_Page_3> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [Button_Widget(text: "Get Started", btn_width: 250, pressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const Direction_Page()));
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => const Direction_Page()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Home_Page()));
               })],
             ),
           ),

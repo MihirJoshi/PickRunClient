@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pickrun_new_client_app/pages/home_page.dart';
 import 'package:pickrun_new_client_app/pages/pickup.dart';
 import 'package:pickrun_new_client_app/utils/colors.dart';
 import 'package:pickrun_new_client_app/widgets/button_widget.dart';
@@ -31,7 +32,7 @@ class _ItemSetState extends State<ItemSet> {
       appBar: AppBar(
         leading: InkWell(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Home_Page()));
           },
           child: const Icon(
             Icons.arrow_back,
